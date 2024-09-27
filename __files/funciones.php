@@ -44,31 +44,6 @@ function setMonitoringStatus($status) {
 }
 
 
-// Función para enviar un mensaje a Telegram
-function sendTelegramMessage($message) {
-
-    $bot_token = "7152871323:AAG8y0dptb0a3RAyr6m_zT1wiCcvHmqLZsI";
-    $telegramApiUrl = "https://api.telegram.org/bot".$bot_token."/sendMessage";
-    $chatId = '1151341214';
-    
-    $data = array(
-        'chat_id' => $chatId,
-        'text' => $message
-    );
-
-    $options = array(
-        'http' => array(
-            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method'  => 'POST',
-            'content' => http_build_query($data),
-        ),
-    );
-    
-    $context  = stream_context_create($options);
-    $result = file_get_contents($telegramApiUrl, false, $context);
-    
-    return $result;
-}
 
 
 function api_trades_monitor($simbolo_a_monitorear)
@@ -136,10 +111,6 @@ function api_trades_monitor($simbolo_a_monitorear)
         if ($trade_id != "" && $trade_id != $last_notified_trade_id) {
 
 
-            $message = 'Se ha detectado una nueva orden abierta en el par: ' . $symbol . ' (Trade ID: '.$trade_id.')';
-            sendTelegramMessage($message);
-
-/*
 			//Enviar e-mail con los datos de la nueva suscripción:
 			//-----------------
 			if(!isLocalhost())
@@ -155,7 +126,6 @@ function api_trades_monitor($simbolo_a_monitorear)
 							 $email_de);
 			}
 			//-----------------
-//*/
 
             // Actualizar el ID del último trade notificado
             $last_notified_trade_id = $trade_id;
