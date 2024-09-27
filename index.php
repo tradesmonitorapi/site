@@ -1,4 +1,6 @@
 <?php
+
+die("Hola");
 require_once('__files/funciones.php'); // Incluir funciones de 'funciones.php'
 
 ini_set('display_errors', 1);
